@@ -1,4 +1,4 @@
-FROM ruby:2.4.1
+FROM ruby:2.4.1-slim
 
 LABEL maintainer "Michael Baudino <michael.baudino@alpine-lab.com>"
 
@@ -16,17 +16,22 @@ ENV PORT="5000" \
     GIT_COMMITTER_NAME="Just some fake name to be able to git-clone" \
     GIT_COMMITTER_EMAIL="whatever@this-user-is-not-supposed-to-git-push.anyway"
 
-# Install apt based dependencies
-RUN sed -i 's/^deb-src/# deb-src/' /etc/apt/sources.list \
+# Install APT and GEM dependencies
+RUN buildDependencies=' \
+      build-essential \
+    ' \
  && apt-get update \
  && apt-get install -y --no-install-recommends --no-install-suggests \
-      build-essential \
-      postgresql-client \
+      ${buildDependencies} \
       nodejs \
+      postgresql-client \
+ && gem update --system 2.6.13 \
+ && gem install \
+      bundler:1.15.4 \
+      foreman:0.84.0 \
+ && gem cleanup \
+ && apt-get purge -y --auto-remove ${buildDependencies} \
  && rm -rf /var/lib/apt/lists/*
-
-# Install some global gems
-RUN gem install bundler foreman
 
 # Persist IRB/Pry/Rails console history
 ADD .irbrc .pryrc /root/

@@ -1,4 +1,4 @@
-FROM ruby:2.2.4
+FROM ruby:2.5.0
 
 LABEL maintainer "Michael Baudino <michael.baudino@alpine-lab.com>"
 
@@ -28,9 +28,9 @@ RUN echo "deb http://apt.postgresql.org/pub/repos/apt/ jessie-pgdg main" > /etc/
  && rm -rf /var/lib/apt/lists/*
 
 # Install GEM dependencies
-RUN gem update --system 2.6.13 \
+RUN gem update --system 2.7.3 \
  && gem install \
-      bundler:1.16.0 \
+      bundler:1.16.1 \
       foreman:0.84.0
 
 # Persist IRB/Pry/Rails console history

@@ -28,7 +28,7 @@ RUN echo "deb http://apt.postgresql.org/pub/repos/apt/ jessie-pgdg main" > /etc/
  && rm -rf /var/lib/apt/lists/*
 
 # Install GEM dependencies
-RUN gem update --system 2.7.3 \
+RUN gem update --system 2.7.5 \
  && gem install \
       bundler:1.16.1 \
       foreman:0.84.0

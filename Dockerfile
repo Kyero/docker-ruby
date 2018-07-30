@@ -22,7 +22,7 @@ RUN echo "deb http://apt.postgresql.org/pub/repos/apt/ jessie-pgdg main" > /etc/
  && apt-get update \
  && apt-get install -y --no-install-recommends --no-install-suggests \
       nodejs \
-      postgresql-client-9.5 \
+      postgresql-client-9.6 \
       nano \
       vim \
  && rm -rf /var/lib/apt/lists/*

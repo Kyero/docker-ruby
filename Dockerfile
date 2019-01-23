@@ -32,7 +32,7 @@ RUN echo "deb http://apt.postgresql.org/pub/repos/apt/ stretch-pgdg main" > /etc
 # Install GEM dependencies
 RUN gem update --system 3.0.2 \
  && gem install \
-      bundler:2.0.1 \
+      bundler:1.17.3 \
       foreman:0.84.0
 
 # Persist IRB/Pry/Rails console history

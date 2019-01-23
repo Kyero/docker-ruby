@@ -1,6 +1,6 @@
-FROM ruby:2.2.4
+FROM ruby:2.5.3
 
-LABEL maintainer "Michael Baudino <michael.baudino@alpine-lab.com>"
+LABEL maintainer "Ivo Jesus <ivo.jesus@kyero.com>"
 
 # Explicitely define locale
 # as advised in https://github.com/docker-library/docs/blob/master/ruby/content.md#encoding
@@ -17,7 +17,9 @@ ENV PORT="5000" \
     GIT_COMMITTER_EMAIL="whatever@this-user-is-not-supposed-to-git-push.anyway"
 
 # Install APT dependencies
-RUN echo "deb http://apt.postgresql.org/pub/repos/apt/ jessie-pgdg main" > /etc/apt/sources.list.d/pgdg.list \
+RUN echo "deb http://apt.postgresql.org/pub/repos/apt/ stretch-pgdg main" > /etc/apt/sources.list.d/pgdg.list \
+ && echo "deb http://deb.nodesource.com/node_11.x stretch main" > /etc/apt/sources.list.d/node.list \
+ && wget --quiet -O - https://deb.nodesource.com/gpgkey/nodesource.gpg.key | apt-key add - \
  && wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add - \
  && apt-get update \
  && apt-get install -y --no-install-recommends --no-install-suggests \
@@ -28,9 +30,9 @@ RUN echo "deb http://apt.postgresql.org/pub/repos/apt/ jessie-pgdg main" > /etc/
  && rm -rf /var/lib/apt/lists/*
 
 # Install GEM dependencies
-RUN gem update --system 2.6.13 \
+RUN gem update --system 3.0.2 \
  && gem install \
-      bundler:1.16.0 \
+      bundler:2.0.1 \
       foreman:0.84.0
 
 # Persist IRB/Pry/Rails console history

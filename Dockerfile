@@ -1,6 +1,6 @@
 FROM ruby:2.5.3
 
-LABEL maintainer "Ivo Jesus <ivo.jesus@kyero.com>"
+LABEL maintainer "Kyero <dev@kyero.com>"
 
 # Explicitely define locale
 # as advised in https://github.com/docker-library/docs/blob/master/ruby/content.md#encoding

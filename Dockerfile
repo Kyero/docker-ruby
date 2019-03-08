@@ -18,8 +18,6 @@ ENV PORT="5000" \
 
 # Install APT dependencies
 RUN echo "deb http://apt.postgresql.org/pub/repos/apt/ stretch-pgdg main" > /etc/apt/sources.list.d/pgdg.list \
- && echo "deb http://deb.nodesource.com/node_11.x stretch main" > /etc/apt/sources.list.d/node.list \
- && wget --quiet -O - https://deb.nodesource.com/gpgkey/nodesource.gpg.key | apt-key add - \
  && wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add - \
  && apt-get update \
  && apt-get install -y --no-install-recommends --no-install-suggests \

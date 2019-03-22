@@ -21,16 +21,37 @@ RUN echo "deb http://apt.postgresql.org/pub/repos/apt/ stretch-pgdg main" > /etc
  && wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add - \
  && apt-get update \
  && apt-get install -y --no-install-recommends --no-install-suggests \
-      nodejs \
+      g++ build-essential \
       postgresql-client-9.6 \
       nano \
       vim \
+      less \
  && rm -rf /var/lib/apt/lists/*
+
+ # Install node
+ 
+ENV NVM_DIR /usr/local/nvm
+ENV NODE_VERSION 10.15.3
+RUN curl --silent -o- https://raw.githubusercontent.com/creationix/nvm/v0.31.2/install.sh | bash
+
+# install node and npm
+RUN . $NVM_DIR/nvm.sh \
+    && nvm install $NODE_VERSION \
+    && nvm alias default $NODE_VERSION \
+    && nvm use default
+
+# add node and npm to path so the commands are available
+ENV NODE_PATH $NVM_DIR/v$NODE_VERSION/lib/node_modules
+ENV PATH $NVM_DIR/versions/node/v$NODE_VERSION/bin:$PATH
+
+# confirm installation
+RUN node -v
+RUN npm -v
 
 # Install GEM dependencies
 RUN gem update --system 3.0.2 \
  && gem install \
-      bundler:1.17.3 \
+      bundler:2.0.1 \
       foreman:0.84.0
 
 # Persist IRB/Pry/Rails console history

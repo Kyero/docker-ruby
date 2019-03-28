@@ -1,6 +1,6 @@
-FROM ruby:2.2.4
+FROM ruby:2.5.3
 
-LABEL maintainer "Michael Baudino <michael.baudino@alpine-lab.com>"
+LABEL maintainer "Kyero <dev@kyero.com>"
 
 # Explicitely define locale
 # as advised in https://github.com/docker-library/docs/blob/master/ruby/content.md#encoding
@@ -17,20 +17,41 @@ ENV PORT="5000" \
     GIT_COMMITTER_EMAIL="whatever@this-user-is-not-supposed-to-git-push.anyway"
 
 # Install APT dependencies
-RUN echo "deb http://apt.postgresql.org/pub/repos/apt/ jessie-pgdg main" > /etc/apt/sources.list.d/pgdg.list \
+RUN echo "deb http://apt.postgresql.org/pub/repos/apt/ stretch-pgdg main" > /etc/apt/sources.list.d/pgdg.list \
  && wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add - \
  && apt-get update \
  && apt-get install -y --no-install-recommends --no-install-suggests \
-      nodejs \
+      g++ build-essential \
       postgresql-client-9.6 \
       nano \
       vim \
+      less \
  && rm -rf /var/lib/apt/lists/*
 
+ # Install node
+ 
+ENV NVM_DIR /usr/local/nvm
+ENV NODE_VERSION 10.15.3
+RUN curl --silent -o- https://raw.githubusercontent.com/creationix/nvm/v0.31.2/install.sh | bash
+
+# install node and npm
+RUN . $NVM_DIR/nvm.sh \
+    && nvm install $NODE_VERSION \
+    && nvm alias default $NODE_VERSION \
+    && nvm use default
+
+# add node and npm to path so the commands are available
+ENV NODE_PATH $NVM_DIR/v$NODE_VERSION/lib/node_modules
+ENV PATH $NVM_DIR/versions/node/v$NODE_VERSION/bin:$PATH
+
+# confirm installation
+RUN node -v
+RUN npm -v
+
 # Install GEM dependencies
-RUN gem update --system 2.6.13 \
+RUN gem update --system 3.0.2 \
  && gem install \
-      bundler:1.16.0 \
+      bundler:2.0.1 \
       foreman:0.84.0
 
 # Persist IRB/Pry/Rails console history

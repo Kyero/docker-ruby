@@ -48,6 +48,8 @@ ENV PATH $NVM_DIR/versions/node/v$NODE_VERSION/bin:$PATH
 RUN node -v
 RUN npm -v
 
+RUN npm install -g yarn@1.15.2
+
 # Install GEM dependencies
 RUN gem update --system 3.0.2 \
  && gem install \
@@ -65,7 +67,8 @@ EXPOSE ${PORT}
 
 # Use a bundle wrapper as entrypoint which runs `bundle install` if necessary.
 COPY bundler-wrapper /usr/local/bin/
-ENTRYPOINT ["bundler-wrapper"]
+COPY yarn-wrapper /usr/local/bin/
+ENTRYPOINT ["bundler-wrapper", "yarn-wrapper"]
 
 # The main command to run when the container starts.
 CMD ["foreman", "start"]

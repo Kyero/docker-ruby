@@ -1,4 +1,4 @@
-FROM ruby:2.5.3
+FROM ruby:2.6.3
 
 LABEL maintainer "Kyero <dev@kyero.com>"
 

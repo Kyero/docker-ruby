@@ -1,4 +1,4 @@
-FROM ruby:2.6.3
+FROM ruby:2.7.2
 
 LABEL maintainer "Kyero <dev@kyero.com>"
 
@@ -49,7 +49,7 @@ RUN node -v
 RUN npm -v
 
 # Install GEM dependencies
-RUN gem update --system 3.0.2 \
+RUN gem update --system 3.1.4 \
  && gem install \
       bundler:2.0.2 \
       foreman:0.84.0

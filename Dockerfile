@@ -51,7 +51,7 @@ RUN npm -v
 # Install GEM dependencies
 RUN gem update --system 3.1.4 \
  && gem install \
-      bundler:2.0.2 \
+      bundler:2.2.11 \
       foreman:0.84.0
 
 # Persist IRB/Pry/Rails console history

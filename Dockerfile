@@ -31,7 +31,7 @@ RUN echo "deb http://apt.postgresql.org/pub/repos/apt/ buster-pgdg main" > /etc/
  # Install node
  
 ENV NVM_DIR /usr/local/nvm
-ENV NODE_VERSION 10.15.3
+ENV NODE_VERSION 14.17.0
 RUN curl --silent -o- https://raw.githubusercontent.com/creationix/nvm/v0.31.2/install.sh | bash
 
 # install node and npm
